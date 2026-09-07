@@ -38,22 +38,22 @@
     <section class="card">
       <h2 data-i18n="doCreateTitle">2. Buat Droplet</h2>
       <div class="grid">
-        <label data-i18n="doCount">Jumlah droplet (1–10)
+        <label><span data-i18n="doCount">Jumlah droplet (1–10)</span>
           <input id="do-count" type="number" min="1" max="10" value="1" />
         </label>
-        <label data-i18n="doRegion">Region
+        <label><span data-i18n="doRegion">Region</span>
           <select id="do-region"></select>
         </label>
-        <label data-i18n="doSize">Ukuran
+        <label><span data-i18n="doSize">Ukuran</span>
           <select id="do-size"></select>
         </label>
-        <label data-i18n="doImage">Image OS
+        <label><span data-i18n="doImage">Image OS</span>
           <select id="do-image"></select>
         </label>
-        <label data-i18n="doPrefix">Nama (prefix)
+        <label><span data-i18n="doPrefix">Nama (prefix)</span>
           <input id="do-prefix" type="text" value="rdp" maxlength="20" />
         </label>
-        <label data-i18n="doRootPw">Password root (opsional)
+        <label><span data-i18n="doRootPw">Password root (opsional)</span>
           <input id="do-rootpw" type="text" data-i18n-ph="doRootPwPh" placeholder="kosongkan = acak otomatis" />
         </label>
       </div>
@@ -78,26 +78,26 @@
       <h2 data-i18n="rdpTitle">Pasang RDP Windows</h2>
       <p class="hint" data-i18n-html="rdpHint">Masukkan IP VPS, password root, dan pilih versi Windows. Proses berjalan di VPS sekitar <b>40–90 menit</b>; halaman akan memantau progresnya.</p>
       <div class="grid">
-        <label data-i18n="rdpHost">IP VPS
+        <label><span data-i18n="rdpHost">IP VPS</span>
           <input id="rdp-host" type="text" placeholder="103.x.x.x" />
         </label>
-        <label data-i18n="rdpPass">Password root VPS
+        <label><span data-i18n="rdpPass">Password root VPS</span>
           <input id="rdp-pass" type="text" data-i18n-ph="rdpPassPh" placeholder="password SSH root" />
         </label>
-        <label data-i18n="rdpWin">Versi Windows
+        <label><span data-i18n="rdpWin">Versi Windows</span>
           <select id="rdp-win"></select>
         </label>
       </div>
       <details class="adv">
         <summary data-i18n="rdpAdv">Opsi lanjutan</summary>
         <div class="grid">
-          <label data-i18n="rdpPort">Port SSH (opsional)
+          <label><span data-i18n="rdpPort">Port SSH (opsional)</span>
             <input id="rdp-port" type="number" data-i18n-ph="rdpPortPh" placeholder="auto-deteksi" />
           </label>
-          <label data-i18n="rdpUser">User SSH
+          <label><span data-i18n="rdpUser">User SSH</span>
             <input id="rdp-user" type="text" value="root" />
           </label>
-          <label data-i18n="rdpWinPw">Password RDP Windows (opsional)
+          <label><span data-i18n="rdpWinPw">Password RDP Windows (opsional)</span>
             <input id="rdp-winpw" type="text" data-i18n-ph="rdpWinPwPh" placeholder="kosongkan = sama dgn password VPS" />
           </label>
         </div>
