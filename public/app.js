@@ -239,18 +239,15 @@ function toast(msg) {
   toast._t = setTimeout(() => (el2.hidden = true), 2600);
 }
 
-function accessPw() { try { return sessionStorage.getItem('accessPw') || ''; } catch (_) { return ''; } }
-
 /** POST JSON ke /api; melempar Error dengan pesan MENTAH (berkode) bila gagal. */
 async function api(path, body) {
   const res = await fetch(path, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-access-password': accessPw() },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body || {})
   });
   let data = {};
   try { data = await res.json(); } catch (_) {}
-  if (res.status === 401) { showGate(); throw new Error(data.error || 'UNAUTHORIZED:'); }
   if (!res.ok || data.ok === false) throw new Error(data.error || `HTTP ${res.status}`);
   return data;
 }
@@ -262,20 +259,6 @@ document.addEventListener('click', (e) => {
   const c = e.target.closest('[data-copy]');
   if (c) { navigator.clipboard.writeText(c.getAttribute('data-copy')).then(() => toast(t('copied'))); }
 });
-
-/* ---------- gerbang akses ---------- */
-function showGate() { $('#gate').hidden = false; $('#gate-pw').focus(); }
-$('#gate-btn').addEventListener('click', async () => {
-  const pw = $('#gate-pw').value;
-  try { sessionStorage.setItem('accessPw', pw); } catch (_) {}
-  try {
-    await api('/api/do/validate', { token: '' });
-  } catch (err) {
-    if (/UNAUTHORIZED/i.test(err.message)) { $('#gate-err').textContent = t('gateWrong'); return; }
-  }
-  $('#gate').hidden = true;
-});
-$('#gate-pw').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#gate-btn').click(); });
 
 /* ---------- tab & bahasa ---------- */
 document.querySelectorAll('.tab').forEach((tb) => {
@@ -326,7 +309,6 @@ function renderMetaSelects() {
 async function loadMeta() {
   const res = await fetch('/api/meta');
   META = await res.json();
-  if (META.accessRequired && !accessPw()) showGate();
   renderMetaSelects();
   refreshWindowsOptions();
 }

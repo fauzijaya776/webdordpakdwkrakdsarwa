@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
   if (req.method !== 'GET') return sendJson(res, 405, { ok: false, error: 'METHOD' });
   sendJson(res, 200, {
     ok: true,
-    accessRequired: Boolean(process.env.ACCESS_PASSWORD),
+    accessRequired: false,
     regions: DO_REGIONS,
     sizes: DO_SIZES,
     images: DO_IMAGES,
