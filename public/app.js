@@ -45,7 +45,9 @@ const I18N = {
     copyLabel: 'salin',
     copied: 'Disalin',
     checking: 'Mengecek...',
-    tokenValid: (email, status) => `✓ Token valid — <b>${email || ''}</b> (status: ${status || '?'})`,
+    tokenValid: (email, status) => email
+      ? `✓ Token valid — <b>${email}</b> (status: ${status || '?'})`
+      : '✓ Token valid (scope terbatas ke droplet — cukup untuk buat/hapus droplet).',
     fillToken: 'Isi token DigitalOcean dulu.',
     creating: 'Membuat...',
     created: (n, pw, ipHint) => `<div class="box">✓ ${n} droplet dibuat.<br>Password root (untuk semua): ${pw}<br><span class="hint">${ipHint}</span></div>`,
@@ -125,7 +127,9 @@ const I18N = {
     copyLabel: 'copy',
     copied: 'Copied',
     checking: 'Checking...',
-    tokenValid: (email, status) => `✓ Token valid — <b>${email || ''}</b> (status: ${status || '?'})`,
+    tokenValid: (email, status) => email
+      ? `✓ Token valid — <b>${email}</b> (status: ${status || '?'})`
+      : '✓ Token valid (scope limited to droplets — enough to create/delete droplets).',
     fillToken: 'Enter your DigitalOcean token first.',
     creating: 'Creating...',
     created: (n, pw, ipHint) => `<div class="box">✓ ${n} droplet(s) created.<br>Root password (for all): ${pw}<br><span class="hint">${ipHint}</span></div>`,
