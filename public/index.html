@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installer DigitalOcean &amp; RDP Windows</title>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%98%81%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <!-- Gerbang akses (kalau ACCESS_PASSWORD di-set) -->
+  <div id="gate" class="gate" hidden>
+    <div class="gate-box">
+      <h2 data-i18n="gateTitle">🔒 Masuk</h2>
+      <p data-i18n="gateDesc">Halaman ini dilindungi. Masukkan kata sandi akses.</p>
+      <input id="gate-pw" type="password" data-i18n-ph="gatePh" placeholder="Kata sandi akses" autocomplete="current-password" />
+      <button id="gate-btn" data-i18n="gateBtn">Masuk</button>
+      <div id="gate-err" class="err"></div>
+    </div>
+  </div>
+
+  <div class="langbar">
+    <button class="lang" data-lang="id">ID</button>
+    <button class="lang" data-lang="en">EN</button>
+  </div>
+
+  <header>
+    <h1 data-i18n="title">☁️ Installer DigitalOcean &amp; RDP Windows</h1>
+    <p class="sub" data-i18n="subtitle">Buat/hapus droplet lewat API DigitalOcean, lalu pasang RDP Windows di VPS mana pun.</p>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="do" data-i18n="tabDo">DigitalOcean</button>
+    <button class="tab" data-tab="rdp" data-i18n="tabRdp">Installer RDP</button>
+  </nav>
+
+  <!-- ============ TAB DIGITALOCEAN ============ -->
+  <main id="tab-do" class="tab-panel active">
+    <section class="card">
+      <h2 data-i18n="doTokenTitle">1. Token DigitalOcean</h2>
+      <p class="hint" data-i18n-html="doTokenHint">Buat token di <b>API → Tokens</b> (scope <b>Write</b>). Token tidak disimpan di server, hanya dipakai untuk permintaanmu.</p>
+      <div class="row">
+        <input id="do-token" type="password" placeholder="dop_v1_..." autocomplete="off" />
+        <button id="do-check" data-i18n="doCheckBtn">Cek Token</button>
+      </div>
+      <div id="do-account" class="status"></div>
+    </section>
+
+    <section class="card">
+      <h2 data-i18n="doCreateTitle">2. Buat Droplet</h2>
+      <div class="grid">
+        <label data-i18n="doCount">Jumlah droplet (1–10)
+          <input id="do-count" type="number" min="1" max="10" value="1" />
+        </label>
+        <label data-i18n="doRegion">Region
+          <select id="do-region"></select>
+        </label>
+        <label data-i18n="doSize">Ukuran
+          <select id="do-size"></select>
+        </label>
+        <label data-i18n="doImage">Image OS
+          <select id="do-image"></select>
+        </label>
+        <label data-i18n="doPrefix">Nama (prefix)
+          <input id="do-prefix" type="text" value="rdp" maxlength="20" />
+        </label>
+        <label data-i18n="doRootPw">Password root (opsional)
+          <input id="do-rootpw" type="text" data-i18n-ph="doRootPwPh" placeholder="kosongkan = acak otomatis" />
+        </label>
+      </div>
+      <button id="do-create" class="primary" data-i18n="doCreateBtn">Buat Droplet</button>
+      <div id="do-create-result" class="result"></div>
+    </section>
+
+    <section class="card">
+      <h2 data-i18n="doListTitle">3. Daftar &amp; Hapus Droplet</h2>
+      <div class="row">
+        <button id="do-refresh" data-i18n="doRefreshBtn">Muat Droplet</button>
+        <label class="inline"><input id="do-onlytag" type="checkbox" /> <span data-i18n="doOnlyTag">hanya buatan alat ini</span></label>
+        <span id="do-auto" class="hint"></span>
+      </div>
+      <div id="do-list" class="list"></div>
+    </section>
+  </main>
+
+  <!-- ============ TAB INSTALLER RDP ============ -->
+  <main id="tab-rdp" class="tab-panel">
+    <section class="card">
+      <h2 data-i18n="rdpTitle">Pasang RDP Windows</h2>
+      <p class="hint" data-i18n-html="rdpHint">Masukkan IP VPS, password root, dan pilih versi Windows. Proses berjalan di VPS sekitar <b>40–90 menit</b>; halaman akan memantau progresnya.</p>
+      <div class="grid">
+        <label data-i18n="rdpHost">IP VPS
+          <input id="rdp-host" type="text" placeholder="103.x.x.x" />
+        </label>
+        <label data-i18n="rdpPass">Password root VPS
+          <input id="rdp-pass" type="text" data-i18n-ph="rdpPassPh" placeholder="password SSH root" />
+        </label>
+        <label data-i18n="rdpWin">Versi Windows
+          <select id="rdp-win"></select>
+        </label>
+      </div>
+      <details class="adv">
+        <summary data-i18n="rdpAdv">Opsi lanjutan</summary>
+        <div class="grid">
+          <label data-i18n="rdpPort">Port SSH (opsional)
+            <input id="rdp-port" type="number" data-i18n-ph="rdpPortPh" placeholder="auto-deteksi" />
+          </label>
+          <label data-i18n="rdpUser">User SSH
+            <input id="rdp-user" type="text" value="root" />
+          </label>
+          <label data-i18n="rdpWinPw">Password RDP Windows (opsional)
+            <input id="rdp-winpw" type="text" data-i18n-ph="rdpWinPwPh" placeholder="kosongkan = sama dgn password VPS" />
+          </label>
+        </div>
+      </details>
+      <button id="rdp-start" class="primary" data-i18n="rdpStartBtn">Mulai Install</button>
+      <div id="rdp-panel" class="result" hidden>
+        <div class="progress"><div id="rdp-bar" class="bar"></div></div>
+        <div id="rdp-note" class="note"></div>
+        <pre id="rdp-log" class="log"></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p data-i18n="footer">⚠️ Alat teknis. Jaga URL &amp; sandi akses tetap rahasia — siapa pun yang bisa membukanya bisa membuat/menghapus droplet dan menjalankan installer.</p>
+  </footer>
+
+  <div id="toast" class="toast" hidden></div>
+  <script src="/app.js"></script>
+</body>
+</html>
